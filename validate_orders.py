@@ -10,6 +10,11 @@ import xml.etree.ElementTree as ET
 
 
 def _keys_check(order: dict) -> None:
+    """
+    Проверяет наличие всех обязательных ключей (полей) в заказе, если какое-то поле отсутствует, пишет ошибку в csv-файл.
+    :param order: словарь с данными по заказу
+    :return:
+    """
     keys = [
         'uid',
         'order_id',
@@ -29,12 +34,22 @@ def _keys_check(order: dict) -> None:
 
 
 def _values_not_null(order: dict) -> None:
+    """
+    Проверяет что значения ключей не пусто, если какое-то значение отсутствует, пишет ошибку в csv-файл.
+    :param order: словарь с данными по заказу
+    :return:
+    """
     for key, value in order.items():
         if value is None:
             export_to_csv([f'{key} is empty for {order}'])
 
 
 def _uid_length_check(order: dict) -> None:
+    """
+    Проверяет, что длина uid 32 символа, иначе пишет ошибку в csv-файл.
+    :param order: словарь с данными по заказу
+    :return:
+    """
     try:
         if len(str(order['uid'])) != 32:
             export_to_csv([f'Unexpected length of uid - {len(str(order["uid"]))} symbol(s) for {order} symbol(s)'])
@@ -43,6 +58,11 @@ def _uid_length_check(order: dict) -> None:
 
 
 def validate_order(order: dict) -> None:
+    """
+    Проходит всеми проверками из списка checkers по заказу
+    :param order: словарь с данными по заказу
+    :return:
+    """
     checkers: list = [_keys_check, _values_not_null, _uid_length_check]
     for func in checkers:
         func(order)
