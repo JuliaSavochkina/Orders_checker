@@ -34,16 +34,16 @@ def _values_not_null(order: dict):
             export_to_csv([f'{key} is empty'])
 
 
-def _uid_check(order: dict):
+def _uid_length_check(order: dict):
     try:
-        if order['uid'] is None:
-            export_to_csv([f'uid is empty for {order}'])
+        if len(str(order['uid'])) != 32:
+            export_to_csv([f'Unexpected length of uid - {len(str(order["uid"]))} symbol(s) for {order} symbol(s)'])
     except KeyError:
         export_to_csv([f'No key uid for {order}'])
 
 
 def validate_order(order: dict):
-    checkers: list = [_keys_check, _values_not_null, _uid_check]
+    checkers: list = [_keys_check, _values_not_null, _uid_length_check]
     for func in checkers:
         func(order)
     return
