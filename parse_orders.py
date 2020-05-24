@@ -3,6 +3,11 @@ from get_orders import get_orders
 
 
 def parse_orders(raw_data: str) -> dict:
+    """
+    Парсит полученную строку с данными в словари
+    :param raw_data: строка с данными по заказам
+    :return: словарь с заказом (генератор?)
+    """
     root = ET.fromstring(raw_data)
     for child in root:
         order = {}
