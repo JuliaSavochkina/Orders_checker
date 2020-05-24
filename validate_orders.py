@@ -31,7 +31,7 @@ def _keys_check(order: dict):
 def _values_not_null(order: dict):
     for key, value in order.items():
         if value is None:
-            export_to_csv([f'{key} is empty'])
+            export_to_csv([f'{key} is empty for {order}'])
 
 
 def _uid_length_check(order: dict):
