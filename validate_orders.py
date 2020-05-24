@@ -1,7 +1,12 @@
+from export_csv import export_to_csv
 import xml.etree.ElementTree as ET
 
-"""TODO:
-* подумать, как реализовать вывод ошибки с указанием номера заказа, если номера нет, подумать. что выводить"""
+"""
+*TODO*
+
+* подумать как обрабатывать KeyError в _uid_check
+* как запихнуть номер заказа в сообщения об ошибке и что делать для заказов, у которых нет номера заказа
+"""
 
 
 def _keys_check(order: dict):
@@ -19,31 +24,29 @@ def _keys_check(order: dict):
         'currency_code'
     ]
     for key in keys:
-        if key in order.keys():
-            print('ok')
-        else:
-            print(f'No key "{key}"')
+        if key not in order.keys():
+            export_to_csv([f'No key {key} for {order}'])
 
 
 def _values_not_null(order: dict):
-    pass
+    for key, value in order.items():
+        if value is None:
+            export_to_csv([f'{key} is empty'])
 
 
 def _uid_check(order: dict):
-    pass
+    try:
+        if order['uid'] is None:
+            export_to_csv([f'uid is empty for {order}'])
+    except KeyError:
+        export_to_csv([f'No key uid for {order}'])
 
 
-def validate_order(order: dict, check: str):
-    checkers: dict = {
-      'check_keys': _keys_check,
-      'check_values': _values_not_null,
-      'check_uid': _uid_check
-    }
-
-    if check not in checkers:
-        print(f'There is no such checker as {check}')
-    else:
-        checkers.get(order, check)
+def validate_order(order: dict):
+    checkers: list = [_keys_check, _values_not_null, _uid_check]
+    for func in checkers:
+        func(order)
+    return
 
 
 if __name__ == '__main__':
@@ -54,7 +57,7 @@ if __name__ == '__main__':
             order = {}
             for child1 in child:
                 order.update({child1.tag: child1.text})
-            return order
+            yield order
 
     for each in parse_orders_test():
-        print(_keys_check(each))
+        validate_order(each)
