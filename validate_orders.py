@@ -1,5 +1,5 @@
-from export_csv import export_to_csv
 import xml.etree.ElementTree as ET
+from export_csv import export_to_csv
 
 """
 *TODO*
