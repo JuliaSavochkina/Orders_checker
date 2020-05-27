@@ -1,13 +1,6 @@
 import xml.etree.ElementTree as ET
 from export_csv import export_to_csv
 
-"""
-*TODO*
-
-* подумать как обрабатывать KeyError в _uid_check
-* как запихнуть номер заказа в сообщения об ошибке и что делать для заказов, у которых нет номера заказа
-"""
-
 
 def _keys_check(order: dict) -> None:
     """
