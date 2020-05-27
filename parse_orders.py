@@ -17,6 +17,6 @@ def parse_orders(raw_data: str) -> dict:
 
 
 if __name__ == '__main__':
-    raw_data = get_orders()
+    raw_data = get_orders('ссылка на фид')
     for each in parse_orders(raw_data):
         print(each)
