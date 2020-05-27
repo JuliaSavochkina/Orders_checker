@@ -30,8 +30,10 @@ def _keys_check(order: dict) -> None:
     ]
     for key in keys:
         if key not in order.keys():
-            export_to_csv([f'No key {key} for {order}'])
-
+            try:
+                export_to_csv([f'No key {key} for {order["order_id"]}'])
+            except KeyError:
+                export_to_csv([f'{key} is empty for {order}'])
 
 def _values_not_null(order: dict) -> None:
     """
@@ -41,7 +43,10 @@ def _values_not_null(order: dict) -> None:
     """
     for key, value in order.items():
         if value is None:
-            export_to_csv([f'{key} is empty for {order}'])
+            try:
+                export_to_csv([f'{key} is empty for {order["order_id"]}'])
+            except KeyError:
+                export_to_csv([f'{key} is empty for {order}'])
 
 
 def _uid_length_check(order: dict) -> None:
@@ -52,9 +57,9 @@ def _uid_length_check(order: dict) -> None:
     """
     try:
         if len(str(order['uid'])) != 32:
-            export_to_csv([f'Unexpected length of uid - {len(str(order["uid"]))} symbol(s) for {order} symbol(s)'])
+            export_to_csv([f'Unexpected length of uid - {len(str(order["uid"]))} symbol(s) for {order["order_id"]} symbol(s)'])
     except KeyError:
-        export_to_csv([f'No key uid for {order}'])
+        export_to_csv([f'No key uid or wrong uid for {order}'])
 
 
 def validate_order(order: dict) -> None:
