@@ -24,9 +24,10 @@ def _keys_check(order: dict) -> None:
     for key in keys:
         if key not in order.keys():
             try:
-                export_to_csv([f'No key {key} for {order["order_id"]}'])
+                export_to_csv({'Order_id': order["order_id"], 'Error message': f'No key {key}'})
             except KeyError:
-                export_to_csv([f'{key} is empty for {order}'])
+                export_to_csv({'Order_id': 'NO order_id', 'Error message': f'for {order}'})
+
 
 def _values_not_null(order: dict) -> None:
     """
@@ -37,9 +38,9 @@ def _values_not_null(order: dict) -> None:
     for key, value in order.items():
         if value is None:
             try:
-                export_to_csv([f'{key} is empty for {order["order_id"]}'])
+                export_to_csv({'Order_id': order["order_id"], 'Error message': f'{key} is empty'})
             except KeyError:
-                export_to_csv([f'{key} is empty for {order}'])
+                export_to_csv({'Order_id': 'NO order_id', 'Error message': f'for {order}'})
 
 
 def _uid_length_check(order: dict) -> None:
@@ -50,9 +51,10 @@ def _uid_length_check(order: dict) -> None:
     """
     try:
         if len(str(order['uid'])) != 32:
-            export_to_csv([f'Unexpected length of uid - {len(str(order["uid"]))} symbol(s) for {order["order_id"]} symbol(s)'])
+            export_to_csv({'Order_id': order["order_id"], 'Error message': f'Unexpected length of uid -'
+                                                                           f' {len(str(order["uid"]))} symbol(s)'})
     except KeyError:
-        export_to_csv([f'No key uid or wrong uid for {order}'])
+        export_to_csv({'Order_id': 'NO order_id', 'Error message': f'for {order}'})
 
 
 def validate_order(order: dict) -> None:
