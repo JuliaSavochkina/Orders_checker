@@ -2,7 +2,7 @@ from thread_orders import thread_orders
 
 
 def main():
-    url = input('Ссылка на фид: ')
+    url: str = input('Ссылка на фид: ')
     thread_orders(url)
 
 
