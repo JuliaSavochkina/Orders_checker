@@ -10,9 +10,10 @@ def get_orders(url: str) -> str:
     """
     try:
         r = requests.get(url)
-        return r.text
     except requests.exceptions.RequestException as error:
         export_to_csv([f'{error}'])
+    else:
+        return r.text
 
 
 if __name__ == '__main__':
