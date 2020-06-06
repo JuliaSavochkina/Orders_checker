@@ -1,4 +1,1 @@
-requests
-xml.etree.ElementTree
-csv
-concurrent.futures
+requests==2.18.4
