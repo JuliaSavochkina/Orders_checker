@@ -1,8 +1,9 @@
+from typing import Generator
 import xml.etree.ElementTree as ET
 from get_orders import get_orders
 
 
-def parse_orders(raw_data: str) -> dict:
+def parse_orders(raw_data: str) -> Generator:
     """
     Парсит полученную строку с данными в словари
     :param raw_data: строка с данными по заказам
