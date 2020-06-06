@@ -8,7 +8,7 @@ def _keys_check(order: dict) -> None:
     :param order: словарь с данными по заказу
     :return:
     """
-    keys = [
+    keys: list = [
         'uid',
         'order_id',
         'tariff_code',
@@ -64,7 +64,6 @@ def validate_order(order: dict) -> None:
     checkers: list = [_keys_check, _values_not_null, _uid_length_check]
     for func in checkers:
         func(order)
-    return
 
 
 if __name__ == '__main__':
