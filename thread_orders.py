@@ -13,4 +13,5 @@ def thread_orders(url: str, number_of_workers: int = 10) -> None:
     """
     with ThreadPoolExecutor(max_workers=number_of_workers) as executor:
         raw_data: str = get_orders(url)
-        future_objs: list = [executor.submit(validate_order, each) for each in parse_orders(raw_data)]
+        for each in parse_orders(raw_data):
+            executor.submit(validate_order, each)
